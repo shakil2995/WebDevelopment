@@ -1,26 +1,25 @@
-.body{
-  background-color:lightgreen;
+body{
+//  background-color:lightgreen;
+  margin: 0px;
 }
 .top_container{
   background-color: red;
   height: 200px;
   width:200px;
-  position: relative;
+  position: absolute;
   left: 400px;
+  top: 400px;
 }
 .middle_container{
   background-color: blue;
   height: 200px;
   width:200px;
-  position: relative;
-  bottom: 200px;
-
+  position: absolute;
+  top: 200px;
+  left: 200px;
 }
 .bottom_container{
   background-color: yellow;
   height: 200px;
   width:200px;
-  position: relative;
-  left: 200px;
-  bottom: 400px;
 }
