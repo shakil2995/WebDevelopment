@@ -1,6 +1,28 @@
-body{
-  background-color:red;
-}
 .body{
   background-color:lightgreen;
+}
+.top_container{
+  background-color: lightgreen;
+  border-style: solid;
+  border-width:5px;
+  height: 200px;
+  padding: 20px;
+  width:200px;
+}
+.middle_container{
+  background-color: purple;
+  border-style: solid;
+  border-width:10px;
+  margin-left: 250px;
+  padding: 10px;
+  height: 200px;
+  width:200px;
+}
+.bottom_container{
+  background-color: red;
+  border-style: solid;
+  border-width:5px;
+  margin-left: 490px;
+  height: 200px;
+  width:200px;
 }
