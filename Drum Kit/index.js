@@ -1,14 +1,15 @@
 for(var i=0;i<document.querySelectorAll(".drum").length;i++){
     document.querySelectorAll(".drum")[i].addEventListener("click", function(){
         buttonClicked=this.innerHTML;
+        buttonAnimation(buttonClicked);
         playAudio(buttonClicked)
     })
 }
 
 document.addEventListener("keypress",function(keypress){
-    keyPressed =keypress.key ;
-    console.log(keyPressed);
+    let keyPressed =keypress.key ;
     playAudio(keyPressed);
+    buttonAnimation(keyPressed);
 })
 
 
@@ -47,3 +48,7 @@ function playAudio(btnPressed){
           console.log("default running");
       } 
     }
+function buttonAnimation(currentKey){
+    {document.querySelector("."+currentKey).classList.add("pressed");
+    setTimeout(function() {document.querySelector("."+currentKey).classList.remove("pressed");}, 100);}
+}
