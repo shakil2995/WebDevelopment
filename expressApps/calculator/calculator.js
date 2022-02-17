@@ -31,11 +31,10 @@ app.post('/additioncalculator', function(req,res){
 
 app.post('/bmicalculator', function(req,res){
     // res.send("Working");
-    let weight = req.body.weight;
-    let height = req.body.height;
-    bmi = weight - (height*5);
+    let weight = parseFloat(req.body.weight);
+    let height = parseFloat(req.body.height);
+    bmi = weight / (height*height);
     res.send(`Your BMI is ${bmi}`);
-    // console.log(req.body);
 })
 
 
