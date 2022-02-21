@@ -13,11 +13,14 @@ app.post('/', function(req,res) {
     const fName = req.body.fName;
     const lName = req.body.lName;
     const email = req.body.email;
-    const url = 'https://us14.api.mailchimp.com/3.0/lists/25b7e0694e';
+    const url = "https://us14.api.mailchimp.com/3.0/lists/25b7e0694e";
+
+// created options 
     const options = {
         method : "POST",
-        auth : 'https://<dc>.api.mailchimp.com/3.0/',
+        auth : 'https://us14.api.mailchimp.com/3.0/',
     }
+//  DAta class
 const data = {
     members : [
         {
@@ -33,7 +36,7 @@ const data = {
 const jsonData = JSON.stringify(data);
 
 const request = https.request(url,options,function(response){
-    response.on("data ", function(data){
+    response.on("data", function(data){
         console.log(JSON.parse(data));
     })
     request.write(jsonData);
