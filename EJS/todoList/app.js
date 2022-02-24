@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const https = require('https');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 let itemList = [];
