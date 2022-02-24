@@ -1,23 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
-app.set('view engine', 'ejs');
 const https = require('https');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 
+let itemList = [];
 app.get('/', function (req, res){
-    // res.sendFile(__dirname+"/static/index.html");
     let date = new Date();
     options = {
         day:"numeric",
         weekday:"long",
         month:"long"
     }
-    var today = date.toLocaleDateString("en-US",options);
-    res.render('list', {today:today});
+    let today = date.toLocaleDateString("en-US",options);
+    res.render('list', {todayListEjs:today,itemList:itemList});
 })
-
 app.post('/', function (req, res){
-    res.sendFile(__dirname+"/static/success.html");
+    newItem = req.body.newItem;
+
+    if (newItem !== "") {
+        itemList.push(newItem);
+        console.log(itemList);
+    }
+
+    res.redirect("/");
 })
 
 // SERVER 
