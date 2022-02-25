@@ -7,6 +7,7 @@ app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 let itemList = [];
+let workList=[];
 app.get('/', function (req, res){
     let date = new Date();
     options = {
@@ -15,19 +16,32 @@ app.get('/', function (req, res){
         month:"long"
     }
     let today = date.toLocaleDateString("en-US",options);
-    res.render('list', {todayListEjs:today,itemList:itemList});
+    res.render('list', {listTitle:today,itemList:itemList});
 })
+
+app.get('/work', function (req, res){
+    res.render('list', {listTitle:"Work",itemList:workList});
+})
+app.get('/about', function (req, res){
+    res.render('about', {listTitle:"Work",itemList:workList});
+})
+// Post routes 
 app.post('/', function (req, res){
+    console.log(req.body.button);
     newItem = req.body.newItem;
-
     if (newItem !== "") {
-        itemList.push(newItem);
-        console.log(itemList);
+        if(req.body.button==="Work"){
+            workList.push(newItem);
+            console.log(workList);
+            res.redirect("/work");
+        } else{
+            itemList.push(newItem);
+            console.log(itemList);
+            res.redirect("/");
+        }
     }
-
-    res.redirect("/");
+   
 })
-
 // SERVER 
 app.listen(3000,function(req,res){
     console.log("server working on port 3000");
