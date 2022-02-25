@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const https = require('https');
+const date = require(__dirname +"/date.js");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -8,23 +9,20 @@ app.set('view engine', 'ejs');
 
 let itemList = [];
 let workList=[];
+
 app.get('/', function (req, res){
-    let date = new Date();
-    options = {
-        day:"numeric",
-        weekday:"long",
-        month:"long"
-    }
-    let today = date.toLocaleDateString("en-US",options);
-    res.render('list', {listTitle:today,itemList:itemList});
+    let day=date.getDay();
+    res.render('list', {listTitle:day,itemList:itemList});
 })
 
 app.get('/work', function (req, res){
     res.render('list', {listTitle:"Work",itemList:workList});
 })
+
 app.get('/about', function (req, res){
-    res.render('about', {listTitle:"Work",itemList:workList});
+    res.render('about', {});
 })
+
 // Post routes 
 app.post('/', function (req, res){
     console.log(req.body.button);
@@ -40,7 +38,6 @@ app.post('/', function (req, res){
             res.redirect("/");
         }
     }
-   
 })
 // SERVER 
 app.listen(3000,function(req,res){
