@@ -1,12 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongooose = require('mongoose');
 const https = require('https');
 const date = require(__dirname +"/date.js");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
-
+mongooose.connect("mongoDB://localhost:27017/todolistBD");
+const itemSchema={
+    name:String,
+};
+const Item = mongooose.model("item",itemSchema);
 let itemList = [];
 let workList=[];
 
