@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongooose = require('mongoose');
 const https = require('https');
+const { ListCollectionsCursor } = require('mongodb');
 const date = require(__dirname +"/date.js");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,24 +26,32 @@ const item3 = new Item({
     name:"<-- Hit this to delete an item.>"
 });
 const defaultItems = [item1,item2,item3];
-// Item.insertMany(defaultItems,function(err){
-//     if (err) {
-//          console.log(err);
-//     }
-//     else{
-//         console.log(err);
-//         console.log(defaultItems);
-//     }
-// });
+
 
 
 let itemList = [];
 let workList=[] ;
+const List=[{}];
 
 app.get('/', function (req, res){
     let day=date.getDay();
     Item.find({},function(err,foundItems){
-        res.render('list', {listTitle:"Today",itemList:foundItems});
+        if (foundItems.length===0) {
+            Item.insertMany(defaultItems,function(err){
+    if (err) {
+         console.log(err);
+    }
+    else{
+        console.log(err);
+        console.log(defaultItems);
+        }
+             });
+             res.redirect("/");
+            }
+        else{
+            res.render('list', {listTitle:"Today",itemList:foundItems});
+        }
+       
     });
  
     
@@ -58,21 +67,26 @@ app.get('/about', function (req, res){
 
 // Post routes 
 app.post('/', function (req, res){
-    console.log(req.body.button);
-    newItem = req.body.newItem;
-    if (newItem !== "") {
-        if(req.body.button==="Work"){
-            workList.push(newItem);
-            console.log(workList);
-            res.redirect("/work");
-        } else{
-            itemList.push(newItem);
-            console.log(itemList);
+    const itemName = req.body.newItem; 
+    const listName = req.body.list;
+    if (itemName !== ""){
+        const item = new Item({
+            name:itemName,
+        });
+        if(listName==="today"){
+            item.save();
             res.redirect("/");
-        }
+        } else{
+            List.findOne({name:listName},function(err,foundList){
+                foundList.listName.push(item);
+                foundList.save();
+            })
+            };
+        }    
     }
-})
+  )
 // SERVER 
 app.listen(3000,function(req,res){
     console.log("server working on port 3000");
 }) 
+
