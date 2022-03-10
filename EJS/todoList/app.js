@@ -7,17 +7,27 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
-mongooose.connect("mongoDB://localhost:27017/todolistBD");
+mongooose.connect("mongodb://localhost:27017/todolistBD"); 
 const itemSchema={
     name:String,
 };
 const Item = mongooose.model("item",itemSchema);
+const item1 = new Item({
+    name:"Welcome to your todoList!"
+});
+const item2 = new Item({
+    name:"Welcome to your todoList!"
+});
+const item3 = new Item({
+    name:"Welcome to your todoList!"
+});
+const defaultItems = [item1,item2,item3];
 let itemList = [];
 let workList=[];
 
 app.get('/', function (req, res){
     let day=date.getDay();
-    res.render('list', {listTitle:day,itemList:itemList});
+    res.render('list', {listTitle:"Today",itemList:itemList});
 })
 
 app.get('/work', function (req, res){
