@@ -7,27 +7,45 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
-mongooose.connect("mongodb://localhost:27017/todolistBD"); 
-const itemSchema={
+mongooose.connect("mongodb://localhost:27017/todolistDB",()=>{
+    console.log("Connected to todolistDB");
+});
+const itemSchema=new mongooose.Schema({
     name:String,
-};
+});
 const Item = mongooose.model("item",itemSchema);
+
 const item1 = new Item({
     name:"Welcome to your todoList!"
 });
 const item2 = new Item({
-    name:"Welcome to your todoList!"
+    name:"Hit the  + button to add a new item."
 });
 const item3 = new Item({
-    name:"Welcome to your todoList!"
+    name:"<-- Hit this to delete an item.>"
 });
 const defaultItems = [item1,item2,item3];
+// Item.insertMany(defaultItems,function(err){
+//     if (err) {
+//          console.log(err);
+//     }
+//     else{
+//         console.log(err);
+//         console.log(defaultItems);
+//     }
+// });
+
+
 let itemList = [];
-let workList=[];
+let workList=[] ;
 
 app.get('/', function (req, res){
     let day=date.getDay();
-    res.render('list', {listTitle:"Today",itemList:itemList});
+    Item.find({},function(err,foundItems){
+        res.render('list', {listTitle:"Today",itemList:foundItems});
+    });
+ 
+    
 })
 
 app.get('/work', function (req, res){
