@@ -111,7 +111,7 @@ app.post('/', function (req, res){
     } else {
         List.findOneAndUpdate({name:listName},{$pull:{items:{_id:checkedItemId}}},function(err,foundList){
             if(!err){
-                console.log(listName);
+                // console.log(listName);
                 res.redirect("/"+listName);
             }
         })
