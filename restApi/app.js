@@ -67,35 +67,48 @@ app.route("/articles/:articleTitle")
             }
         });
     })
-    .post(function(req,res){
-        const newArticle = new Article({
-            title:req.body.title,
-            content:req.body.content,
-        })
-        newArticle.save(function(err){
-            if(!err){
-                res.send("successfully updated");
-            } else{
-                res.send(err);
-            }
-        });
-    })
+    // .post(function(req,res){
+    //     const newArticle = new Article({
+    //         title:req.body.title,
+    //         content:req.body.content,
+    //     })
+    //     newArticle.save(function(err){
+    //         if(!err){
+    //             res.send("successfully updated");
+    //         } else{
+    //             res.send(err);
+    //         }
+    //     });
+    // })
 
-    .put(function(req,res){
-
-    })
+    // .put(function(req,res){
+    //     Article.updateOne(
+    //         {title:req.params.articleTitle},
+    //         {$set:req.body.title,content:req.body.content},
+    //         {overwrite:true},
+    //             function(err){
+    //                 if(!err){
+    //                     res.send("Updated");
+    //                 } else{
+    //                     console.log(req.body.title);
+    //                     res.send(err);
+    //                 }
+    //             }
+    //     );
+    // })
+    
     .patch(function(req,res){
         Article.updateOne(
-            {title:req.params.articleTitle,
-                content:req.body.content,
+            {title:req.params.articleTitle},
+            {$set:req.body},
                 function(err){
                     if(!err){
                         res.send("Updated");
                     } else{
+                        console.log(req.body.title);
                         res.send(err);
                     }
                 }
-            }
         );
     })
     .delete(function(req,res){
